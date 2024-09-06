@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"errors"
 	"net/http"
 	"testing"
 )
@@ -14,7 +13,7 @@ func TestGetAPIKey(t *testing.T) {
 	testHeader1.Set("", "")
 	testHeader2.Set("Authorization", "")
 	testHeader3.Set("Authorization", "teset api")
-	testHeader4.Set("Authorization", "ApiKey correctk")
+	testHeader4.Set("Authorization", "ApiKey correctkey")
 	cases := []struct {
 		input    http.Header
 		expected struct {
@@ -29,22 +28,22 @@ func TestGetAPIKey(t *testing.T) {
 		{input: testHeader2, expected: struct {
 			key string
 			err error
-		}{key: "", err: errors.New("malformed authorization header")}},
+		}{key: "", err: ErrNoAuthHeaderIncluded}},
 		{input: testHeader2, expected: struct {
 			key string
 			err error
-		}{key: "", err: errors.New("malformed authorization header")}},
+		}{key: "", err: ErrNoAuthHeaderIncluded}},
 		{input: testHeader4, expected: struct {
 			key string
 			err error
 		}{key: "correctkey", err: nil}},
 	}
 
-	for _, testCase := range cases {
+	for i, testCase := range cases {
 		actual, err := GetAPIKey(testCase.input)
 
-		if actual != testCase.expected.key && err != testCase.expected.err {
-			t.Errorf("expected key: %v, got: %v, expected err: %v, got: %v", testCase.expected.key, actual, testCase.expected.err, err)
+		if actual != testCase.expected.key || err != testCase.expected.err {
+			t.Errorf("expected key %d: %v, got: %v, expected err: %v, got: %v", i, testCase.expected.key, actual, testCase.expected.err, err)
 		}
 	}
 }
