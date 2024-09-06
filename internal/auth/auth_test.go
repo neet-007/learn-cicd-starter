@@ -14,7 +14,7 @@ func TestGetAPIKey(t *testing.T) {
 	testHeader1.Set("", "")
 	testHeader2.Set("Authorization", "")
 	testHeader3.Set("Authorization", "teset api")
-	testHeader4.Set("Authorization", "ApiKey correctke")
+	testHeader4.Set("Authorization", "ApiKey correctk")
 	cases := []struct {
 		input    http.Header
 		expected struct {
