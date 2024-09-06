@@ -14,7 +14,7 @@ func TestGetAPIKey(t *testing.T) {
 	testHeader1.Set("", "")
 	testHeader2.Set("Authorization", "")
 	testHeader3.Set("Authorization", "teset api")
-	testHeader4.Set("Authorization", "ApiKey correctk")
+	testHeader4.Set("Authorization", "ApiKey corre")
 	cases := []struct {
 		input    http.Header
 		expected struct {
@@ -37,13 +37,13 @@ func TestGetAPIKey(t *testing.T) {
 		{input: testHeader4, expected: struct {
 			key string
 			err error
-		}{key: "correctkey", err: nil}},
+		}{key: "correctkeydasdad", err: nil}},
 	}
 
 	for _, testCase := range cases {
 		actual, err := GetAPIKey(testCase.input)
 
-		if actual != testCase.expected.key && err != testCase.expected.err {
+		if actual != testCase.expected.key || err != testCase.expected.err {
 			t.Errorf("expected key: %v, got: %v, expected err: %v, got: %v", testCase.expected.key, actual, testCase.expected.err, err)
 		}
 	}
